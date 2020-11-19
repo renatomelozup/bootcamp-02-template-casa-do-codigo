@@ -1,6 +1,5 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.controller;
 
-import br.com.zup.renatomelo.desafiocasadocodigo.autor.Autor;
 import br.com.zup.renatomelo.desafiocasadocodigo.autor.AutorRepository;
 import br.com.zup.renatomelo.desafiocasadocodigo.autor.NovoAutorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,6 @@ public class AutorController {
 
         autorRepository.save(novoAutorRequest.paraAutor());
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
