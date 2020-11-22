@@ -1,5 +1,6 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.autor;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -11,6 +12,7 @@ public class NovoAutorRequest {
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotBlank
