@@ -1,8 +1,5 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.autor;
 
-import br.com.zup.renatomelo.desafiocasadocodigo.autor.Autor;
-import br.com.zup.renatomelo.desafiocasadocodigo.autor.AutorRepository;
-import br.com.zup.renatomelo.desafiocasadocodigo.autor.NovoAutorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
