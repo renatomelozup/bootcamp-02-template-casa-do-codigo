@@ -1,4 +1,4 @@
-package br.com.zup.renatomelo.desafiocasadocodigo.controller;
+package br.com.zup.renatomelo.desafiocasadocodigo.autor;
 
 import br.com.zup.renatomelo.desafiocasadocodigo.autor.Autor;
 import br.com.zup.renatomelo.desafiocasadocodigo.autor.AutorRepository;
