@@ -1,5 +1,6 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.categoria;
 
+import br.com.zup.renatomelo.desafiocasadocodigo.validator.UniqueValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import javax.validation.constraints.NotBlank;
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 public class NovaCategoriaRequest {
     
     @NotBlank
+    @UniqueValue(domainClass = Categoria.class, fieldName = "nome")
     private String nome;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

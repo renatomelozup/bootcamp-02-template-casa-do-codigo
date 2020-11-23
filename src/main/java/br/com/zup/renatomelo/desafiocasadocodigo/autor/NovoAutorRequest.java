@@ -1,5 +1,7 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.autor;
 
+import br.com.zup.renatomelo.desafiocasadocodigo.validator.UniqueValue;
+
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +14,7 @@ public class NovoAutorRequest {
 
     @NotBlank
     @Email
+    @UniqueValue(domainClass = Autor.class, fieldName = "email")
     @Column(unique = true)
     private String email;
 
