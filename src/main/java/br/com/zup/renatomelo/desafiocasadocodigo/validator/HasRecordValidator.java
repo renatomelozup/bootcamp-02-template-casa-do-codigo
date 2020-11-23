@@ -26,7 +26,7 @@ public class HasRecordValidator implements ConstraintValidator<HasRecord, Object
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
-        Query query = entityManager.createQuery("select * from " + aClass.getName() + " where " + domainAttribute + "=:value");
+        Query query = entityManager.createQuery("select 1 from " + aClass.getName() + " where " + domainAttribute + "=:value");
         query.setParameter("value", value);
         List<?> list = query.getResultList();
 
