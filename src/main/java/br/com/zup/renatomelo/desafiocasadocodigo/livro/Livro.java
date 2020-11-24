@@ -52,6 +52,14 @@ public class Livro {
     public Livro() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
     public Livro(@NotBlank String titulo,
                  @NotBlank @Size(max = 500) String resumo,
                  @Size(max = 4000) String sumario,

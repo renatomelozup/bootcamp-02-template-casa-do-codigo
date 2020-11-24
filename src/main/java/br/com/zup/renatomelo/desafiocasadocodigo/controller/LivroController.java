@@ -10,10 +10,7 @@ import br.com.zup.renatomelo.desafiocasadocodigo.livro.NovoLivroRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -46,5 +43,11 @@ public class LivroController {
         livroRepository.save(novoLivro);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> listaLivros() {
+
+        return new ResponseEntity<>(livroRepository.findBy(),HttpStatus.OK);
     }
 }
