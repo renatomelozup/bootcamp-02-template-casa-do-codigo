@@ -7,11 +7,9 @@ import br.com.zup.renatomelo.desafiocasadocodigo.categoria.CategoriaRepository;
 import br.com.zup.renatomelo.desafiocasadocodigo.livro.Livro;
 import br.com.zup.renatomelo.desafiocasadocodigo.livro.LivroRepository;
 import br.com.zup.renatomelo.desafiocasadocodigo.livro.NovoLivroRequest;
-import com.fasterxml.jackson.core.JsonGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,17 +38,13 @@ public class LivroController {
             novoLivroRequest.setSumario("");
         }
 
-        Optional<Autor> autor = autorRepository.findByNomeIgnoreCase(novoLivroRequest.getAutor());
-        Optional<Categoria> categoria = categoriaRepository.findByNomeIgnoreCase(novoLivroRequest.getCategoria());
+        Optional<Autor> autor = autorRepository.findById(novoLivroRequest.getAutorId());
+        Optional<Categoria> categoria = categoriaRepository.findById(novoLivroRequest.getCategoriaId());
 
-        if(autor.isPresent() && categoria.isPresent()) {
-
-        }
         Livro novoLivro = novoLivroRequest.paraLivro(autor.get(), categoria.get());
 
         livroRepository.save(novoLivro);
 
         return new ResponseEntity<>(HttpStatus.OK);
-        //return new ResponseEntity<>("blablabla",HttpStatus.BAD_REQUEST);
     }
 }

@@ -40,13 +40,13 @@ public class NovoLivroRequest {
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     private LocalDate dataDisponivel;
 
-    //@NotBlank
-    @HasRecord(domainClass = Categoria.class, fieldName = "nome")
-    private String categoria;
+    @NotNull
+    @HasRecord(domainClass = Categoria.class, fieldName = "id")
+    private Long categoriaId;
 
-    //@NotBlank
-    @HasRecord(domainClass = Autor.class, fieldName = "nome")
-    private String autor;
+    @NotNull
+    @HasRecord(domainClass = Autor.class, fieldName = "id")
+    private Long autorId;
 
     public String getSumario() {
         return sumario;
@@ -76,12 +76,12 @@ public class NovoLivroRequest {
         return dataDisponivel;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public Long getCategoriaId() {
+        return categoriaId;
     }
 
-    public String getAutor() {
-        return autor;
+    public Long getAutorId() {
+        return autorId;
     }
 
     public void setSumario(String sumario) {
@@ -99,8 +99,8 @@ public class NovoLivroRequest {
      * @param paginas = é obrigatório e deve ter mais de 100
      * @param isbn = é obrigatório e único
      * @param dataDisponivel = é obrigatório e deve estar no futuro
-     * @param categoria = é obrigatório
-     * @param autor = é obrigatório
+     * @param categoriaId = é obrigatório
+     * @param autorId = é obrigatório
      */
     public NovoLivroRequest(@NotBlank String titulo,
                             @NotBlank @Size(max = 500) String resumo,
@@ -108,16 +108,16 @@ public class NovoLivroRequest {
                             @NotNull @Min(100) Long paginas,
                             @NotBlank String isbn,
                             @Future LocalDate dataDisponivel,
-                            @NotBlank String categoria,
-                            @NotBlank String autor) {
+                            @NotNull Long categoriaId,
+                            @NotNull Long autorId) {
         this.titulo = titulo;
         this.resumo = resumo;
         this.preco = preco;
         this.paginas = paginas;
         this.isbn = isbn;
         this.dataDisponivel = dataDisponivel;
-        this.categoria = categoria;
-        this.autor = autor;
+        this.categoriaId = categoriaId;
+        this.autorId = autorId;
     }
 
     /**
@@ -128,8 +128,8 @@ public class NovoLivroRequest {
      * @param paginas = é obrigatório e deve ter mais de 100
      * @param isbn = é obrigatório e único
      * @param dataDisponivel = é obrigatório e deve estar no futuro
-     * @param categoria = é obrigatório
-     * @param autor = é obrigatório
+     * @param categoriaId = é obrigatório
+     * @param autorId = é obrigatório
      */
     public NovoLivroRequest(@NotBlank String titulo,
                             @NotBlank @Size(max = 500) String resumo,
@@ -138,8 +138,8 @@ public class NovoLivroRequest {
                             @NotNull @Min(100) Long paginas,
                             @NotBlank String isbn,
                             @Future LocalDate dataDisponivel,
-                            @NotBlank String categoria,
-                            @NotBlank String autor) {
+                            @NotNull Long categoriaId,
+                            @NotNull Long autorId) {
         this.titulo = titulo;
         this.resumo = resumo;
         this.sumario = sumario;
@@ -147,8 +147,8 @@ public class NovoLivroRequest {
         this.paginas = paginas;
         this.isbn = isbn;
         this.dataDisponivel = dataDisponivel;
-        this.categoria = categoria;
-        this.autor = autor;
+        this.categoriaId = categoriaId;
+        this.autorId = autorId;
     }
 
     public Livro paraLivro(Autor autor, Categoria categoria) {
