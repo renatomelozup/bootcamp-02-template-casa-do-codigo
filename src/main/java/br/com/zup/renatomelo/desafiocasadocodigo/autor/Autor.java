@@ -1,6 +1,5 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.autor;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -29,6 +28,14 @@ public class Autor {
     @NotNull
     @PastOrPresent
     private LocalDateTime instanteCriacao = LocalDateTime.now();
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
 
     /**
      * @deprecated  apenas usado pelo hibernate

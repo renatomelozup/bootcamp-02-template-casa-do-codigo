@@ -5,6 +5,7 @@ import br.com.zup.renatomelo.desafiocasadocodigo.autor.AutorRepository;
 import br.com.zup.renatomelo.desafiocasadocodigo.categoria.Categoria;
 import br.com.zup.renatomelo.desafiocasadocodigo.categoria.CategoriaRepository;
 import br.com.zup.renatomelo.desafiocasadocodigo.livro.Livro;
+import br.com.zup.renatomelo.desafiocasadocodigo.livro.LivroPaginaDetalheProjection;
 import br.com.zup.renatomelo.desafiocasadocodigo.livro.LivroRepository;
 import br.com.zup.renatomelo.desafiocasadocodigo.livro.NovoLivroRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,14 @@ public class LivroController {
     public ResponseEntity<?> listaLivros() {
 
         return new ResponseEntity<>(livroRepository.findBy(),HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<?> detalheLivroId(@PathVariable Long id) {
+        Optional<LivroPaginaDetalheProjection> livro = livroRepository.getById(id);
+        if(livro.isPresent()){
+            return new ResponseEntity<>(livro.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
