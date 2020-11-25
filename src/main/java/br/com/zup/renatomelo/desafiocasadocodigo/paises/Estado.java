@@ -18,11 +18,19 @@ public class Estado {
 
     @NotNull
     @Valid
-    @OneToOne
+    @ManyToOne
     private Pais pais;
+
+    @Deprecated
+    public Estado() {
+    }
 
     public Estado(@NotBlank String nome, Pais pais) {
         this.nome = nome;
         this.pais = pais;
+    }
+
+    public boolean pertenceAPais(Pais pais) {
+        return this.pais.equals(pais);
     }
 }
