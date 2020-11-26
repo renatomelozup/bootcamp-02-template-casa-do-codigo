@@ -17,7 +17,7 @@ public class PaisTemEstadoValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return NovoDadoPessoalRequest.class.isAssignableFrom(aClass);
+        return NovaCompraRequest.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -26,10 +26,10 @@ public class PaisTemEstadoValidator implements Validator {
             return;
         }
 
-        NovoDadoPessoalRequest novoDadoPessoalRequest = (NovoDadoPessoalRequest) o;
+        NovaCompraRequest novaCompraRequest = (NovaCompraRequest) o;
 
-        Pais pais = entityManager.find(Pais.class, novoDadoPessoalRequest.getPaisId());
-        Estado estado = entityManager.find(Estado.class, novoDadoPessoalRequest.getEstadoId());
+        Pais pais = entityManager.find(Pais.class, novaCompraRequest.getPaisId());
+        Estado estado = entityManager.find(Estado.class, novaCompraRequest.getEstadoId());
 
         if(!estado.pertenceAPais(pais)) {
             errors.rejectValue("estadoId", null, "Este estado não é do país selecionado");

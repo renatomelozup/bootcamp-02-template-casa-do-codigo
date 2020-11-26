@@ -27,8 +27,8 @@ public class FluxoPagamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> recebeDados(@RequestBody @Valid NovoDadoPessoalRequest novoDadoPessoalRequest) {
+    public ResponseEntity<?> recebeDados(@RequestBody @Valid NovaCompraRequest novaCompraRequest) {
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(novaCompraRequest.toString());
     }
 }

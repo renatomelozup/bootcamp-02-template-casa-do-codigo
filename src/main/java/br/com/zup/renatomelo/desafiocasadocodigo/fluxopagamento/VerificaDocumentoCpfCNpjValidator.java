@@ -8,7 +8,7 @@ import org.springframework.validation.Validator;
 public class VerificaDocumentoCpfCNpjValidator implements Validator {
     @Override
     public boolean supports(Class<?> aClass) {
-        return NovoDadoPessoalRequest.class.isAssignableFrom(aClass);
+        return NovaCompraRequest.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -17,8 +17,8 @@ public class VerificaDocumentoCpfCNpjValidator implements Validator {
             return;
         }
 
-        NovoDadoPessoalRequest novoDadoPessoalRequest = (NovoDadoPessoalRequest) o;
-        if(!novoDadoPessoalRequest.documentoValid()) {
+        NovaCompraRequest novaCompraRequest = (NovaCompraRequest) o;
+        if(!novaCompraRequest.documentoValid()) {
             errors.rejectValue("documento", null, "documento precisa ser cpf ou cnpj");
         }
 
