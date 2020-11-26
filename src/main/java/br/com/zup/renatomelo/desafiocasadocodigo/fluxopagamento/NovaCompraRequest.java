@@ -181,7 +181,7 @@ public class NovaCompraRequest {
 
         Pais pais = entityManager.find(Pais.class, this.paisId);
 
-        Pedido pedido = novoPedidoRequest.toModel();
+        Pedido pedido = novoPedidoRequest.toModel(entityManager);
 
         Compra compra = new Compra(this.email,
                 this.nome,

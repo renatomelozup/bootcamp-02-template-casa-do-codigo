@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/compras")
@@ -35,11 +38,15 @@ public class FluxoPagamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> recebeDados(@RequestBody @Valid NovaCompraRequest novaCompraRequest) {
+    @Transactional
+    public ResponseEntity<?> recebeDados(@RequestBody @Valid NovaCompraRequest novaCompraRequest,
+                                         UriComponentsBuilder uriComponentsBuilder) {
 
         Compra compra = novaCompraRequest.toModel(entityManager);
 
         entityManager.persist(compra);
-        return ResponseEntity.ok(compra);
+
+        URI uri = uriComponentsBuilder.path("/compras/{id}").buildAndExpand(compra.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 }

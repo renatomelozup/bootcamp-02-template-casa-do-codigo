@@ -3,6 +3,7 @@ package br.com.zup.renatomelo.desafiocasadocodigo.fluxopagamento;
 import br.com.zup.renatomelo.desafiocasadocodigo.livro.Livro;
 import br.com.zup.renatomelo.desafiocasadocodigo.validator.HasRecord;
 
+import javax.persistence.EntityManager;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -41,7 +42,9 @@ public class NovoItemRequest {
                 '}';
     }
 
-    public Itens toModel() {
-        return new Itens(this.idLivro, this.quantidade);
+    public Itens toModel(EntityManager entityManager) {
+        Itens itens = new Itens(this.idLivro, this.quantidade);
+        entityManager.persist(itens);
+        return itens;
     }
 }

@@ -45,6 +45,10 @@ public class Compra {
     @OneToOne
     private Pedido pedido;
 
+    public Long getId() {
+        return id;
+    }
+
     public Compra(@NotBlank @Email String email,
                   @NotBlank String nome,
                   @NotBlank String sobrenome,

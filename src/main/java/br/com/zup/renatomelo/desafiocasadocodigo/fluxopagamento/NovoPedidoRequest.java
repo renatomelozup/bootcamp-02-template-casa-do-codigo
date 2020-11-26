@@ -1,5 +1,6 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.fluxopagamento;
 
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
@@ -46,11 +47,12 @@ public class NovoPedidoRequest {
                 '}';
     }
 
-    public Pedido toModel() {
+    public Pedido toModel(EntityManager entityManager) {
         List<Itens> itensList = itens.stream().map(item -> {
-            return item.toModel();
+            return item.toModel(entityManager);
         }).collect(Collectors.toList());
         Pedido pedido = new Pedido(this.total, itensList);
+        entityManager.persist(pedido);
         return pedido;
     }
 }
