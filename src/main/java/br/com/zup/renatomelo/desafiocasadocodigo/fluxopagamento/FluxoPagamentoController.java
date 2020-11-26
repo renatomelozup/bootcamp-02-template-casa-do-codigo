@@ -21,9 +21,12 @@ public class FluxoPagamentoController {
     @Autowired
     private VerificaDocumentoCpfCNpjValidator verificaDocumentoCpfCNpjValidator;
 
+    @Autowired
+    private VerificaTotalValidator verificaTotalValidator;
+
     @InitBinder
     public void init(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(verificaDocumentoCpfCNpjValidator, paisTemEstadosValidator);
+        webDataBinder.addValidators(verificaDocumentoCpfCNpjValidator, paisTemEstadosValidator, verificaTotalValidator);
     }
 
     @PostMapping

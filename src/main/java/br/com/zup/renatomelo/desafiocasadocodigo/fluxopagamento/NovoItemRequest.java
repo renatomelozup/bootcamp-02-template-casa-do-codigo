@@ -24,6 +24,7 @@ public class NovoItemRequest {
         return quantidade;
     }
 
+    @Deprecated
     public NovoItemRequest() {
     }
 

@@ -2,7 +2,6 @@ package br.com.zup.renatomelo.desafiocasadocodigo.fluxopagamento;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -27,6 +26,7 @@ public class NovoPedidoRequest {
         return itens;
     }
 
+    @Deprecated
     public NovoPedidoRequest() {
     }
 

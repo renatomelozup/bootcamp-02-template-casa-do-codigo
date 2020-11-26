@@ -60,6 +60,10 @@ public class Livro {
         return titulo;
     }
 
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
     public Livro(@NotBlank String titulo,
                  @NotBlank @Size(max = 500) String resumo,
                  @Size(max = 4000) String sumario,
