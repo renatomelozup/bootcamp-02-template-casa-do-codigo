@@ -1,11 +1,13 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.fluxopagamento;
 
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NovoPedidoRequest {
 
@@ -42,5 +44,13 @@ public class NovoPedidoRequest {
                 "total=" + total +
                 ", itens=" + itens +
                 '}';
+    }
+
+    public Pedido toModel() {
+        List<Itens> itensList = itens.stream().map(item -> {
+            return item.toModel();
+        }).collect(Collectors.toList());
+        Pedido pedido = new Pedido(this.total, itensList);
+        return pedido;
     }
 }

@@ -40,4 +40,8 @@ public class NovoItemRequest {
                 ", quantidade=" + quantidade +
                 '}';
     }
+
+    public Itens toModel() {
+        return new Itens(this.idLivro, this.quantidade);
+    }
 }

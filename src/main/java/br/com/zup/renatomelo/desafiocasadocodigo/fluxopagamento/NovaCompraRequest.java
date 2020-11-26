@@ -176,4 +176,31 @@ public class NovaCompraRequest {
                 ", novoPedidoRequest=" + novoPedidoRequest +
                 '}';
     }
+
+    public Compra toModel(EntityManager entityManager) {
+
+        Pais pais = entityManager.find(Pais.class, this.paisId);
+
+        Pedido pedido = novoPedidoRequest.toModel();
+
+        Compra compra = new Compra(this.email,
+                this.nome,
+                this.sobrenome,
+                this.documento,
+                this.cidade,
+                this.endereco,
+                this.complemento,
+                this.cep,
+                this.telefone,
+                pais,
+                pedido);
+
+        if(estadoId != null) {
+            compra.setEstado(entityManager.find(Estado.class, this.estadoId));
+        }
+
+        return compra;
+    }
+
+
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 @RestController
@@ -24,6 +26,9 @@ public class FluxoPagamentoController {
     @Autowired
     private VerificaTotalValidator verificaTotalValidator;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @InitBinder
     public void init(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(verificaDocumentoCpfCNpjValidator, paisTemEstadosValidator, verificaTotalValidator);
@@ -32,6 +37,9 @@ public class FluxoPagamentoController {
     @PostMapping
     public ResponseEntity<?> recebeDados(@RequestBody @Valid NovaCompraRequest novaCompraRequest) {
 
-        return ResponseEntity.ok(novaCompraRequest.toString());
+        Compra compra = novaCompraRequest.toModel(entityManager);
+
+        entityManager.persist(compra);
+        return ResponseEntity.ok(compra);
     }
 }
