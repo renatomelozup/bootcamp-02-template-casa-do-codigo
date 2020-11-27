@@ -36,6 +36,7 @@ public class NovoLivroRequest {
     @UniqueValue(domainClass = Livro.class, fieldName = "isbn")
     private String isbn;
 
+    @NotNull
     @Future
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     private LocalDate dataDisponivel;
