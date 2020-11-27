@@ -38,7 +38,6 @@ public class Compra {
     @NotNull
     @OneToOne
     private Pais pais;
-    @NotNull
     @OneToOne
     private Estado estado;
     @NotNull

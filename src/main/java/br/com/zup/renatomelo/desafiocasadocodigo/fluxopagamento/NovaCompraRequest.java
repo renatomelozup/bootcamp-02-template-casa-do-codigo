@@ -207,5 +207,8 @@ public class NovaCompraRequest {
         return compra;
     }
 
+    public boolean temEstado() {
+        return estadoId != null;
+    }
 
 }
