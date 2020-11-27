@@ -1,13 +1,11 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.fluxopagamento;
 
+import br.com.zup.renatomelo.desafiocasadocodigo.cupomdesconto.CupomDescontoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
@@ -32,6 +30,12 @@ public class FluxoPagamentoController {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    private CupomDescontoRepository cupomDescontoRepository;
+
+    @Autowired
+    private CompraRepository compraRepository;
+
     @InitBinder
     public void init(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(verificaDocumentoCpfCNpjValidator, paisTemEstadosValidator, verificaTotalValidator);
@@ -42,11 +46,16 @@ public class FluxoPagamentoController {
     public ResponseEntity<?> recebeDados(@RequestBody @Valid NovaCompraRequest novaCompraRequest,
                                          UriComponentsBuilder uriComponentsBuilder) {
 
-        Compra compra = novaCompraRequest.toModel(entityManager);
+        Compra compra = novaCompraRequest.toModel(entityManager, cupomDescontoRepository);
 
         entityManager.persist(compra);
 
         URI uri = uriComponentsBuilder.path("/compras/{id}").buildAndExpand(compra.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detalheCompra(@PathVariable Long id) {
+        return new ResponseEntity<>(compraRepository.getById(id), HttpStatus.OK);
     }
 }

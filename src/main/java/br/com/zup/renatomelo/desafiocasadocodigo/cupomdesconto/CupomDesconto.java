@@ -24,6 +24,10 @@ public class CupomDesconto {
     @Future
     private LocalDate validade;
 
+    @Deprecated
+    public CupomDesconto() {
+    }
+
     /**
      * @param codigo = codigo do cupom não pode ser em branco
      * @param percentual = percentual em casas decimais e não pode ser em branco
@@ -35,5 +39,13 @@ public class CupomDesconto {
         this.codigo = codigo;
         this.percentual = percentual;
         this.validade = validade;
+    }
+
+    public LocalDate getValidade() {
+        return validade;
+    }
+
+    public BigDecimal getPercentual() {
+        return percentual;
     }
 }

@@ -1,12 +1,16 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.fluxopagamento;
 
+import br.com.zup.renatomelo.desafiocasadocodigo.cupomdesconto.CupomDesconto;
+import br.com.zup.renatomelo.desafiocasadocodigo.cupomdesconto.CupomDescontoRepository;
 import br.com.zup.renatomelo.desafiocasadocodigo.livro.Livro;
 import br.com.zup.renatomelo.desafiocasadocodigo.paises.Estado;
 import br.com.zup.renatomelo.desafiocasadocodigo.paises.Pais;
 import br.com.zup.renatomelo.desafiocasadocodigo.validator.HasRecord;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -14,6 +18,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class NovaCompraRequest {
 
@@ -55,6 +61,13 @@ public class NovaCompraRequest {
     @NotNull
     @Valid
     private NovoPedidoRequest novoPedidoRequest;
+
+    @HasRecord(domainClass = CupomDesconto.class, fieldName = "codigo")
+    private String codigoCupom;
+
+    public String getCodigoCupom() {
+        return codigoCupom;
+    }
 
     public String getDocumento() {
         return documento;
@@ -120,7 +133,8 @@ public class NovaCompraRequest {
                              Long estadoId,
                              @NotBlank String telefone,
                              @NotBlank String cep,
-                             @NotNull @Valid NovoPedidoRequest novoPedidoRequest) {
+                             @NotNull @Valid NovoPedidoRequest novoPedidoRequest,
+                             String codigoCupom) {
         this.email = email;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -133,6 +147,7 @@ public class NovaCompraRequest {
         this.telefone = telefone;
         this.cep = cep;
         this.novoPedidoRequest = novoPedidoRequest;
+        this.codigoCupom = codigoCupom;
     }
 
     public boolean documentoValid() {
@@ -164,25 +179,7 @@ public class NovaCompraRequest {
         //return totalCalculado.equals(this.novoPedidoRequest.getTotal());
     }
 
-    @Override
-    public String toString() {
-        return "NovaCompraRequest{" +
-                "email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", sobrenome='" + sobrenome + '\'' +
-                ", documento='" + documento + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", paisId=" + paisId +
-                ", estadoId=" + estadoId +
-                ", telefone='" + telefone + '\'' +
-                ", cep='" + cep + '\'' +
-                ", novoPedidoRequest=" + novoPedidoRequest +
-                '}';
-    }
-
-    public Compra toModel(EntityManager entityManager) {
+    public Compra toModel(EntityManager entityManager, CupomDescontoRepository cupomDescontoRepository) {
 
         Pais pais = entityManager.find(Pais.class, this.paisId);
 
@@ -202,6 +199,16 @@ public class NovaCompraRequest {
 
         if(estadoId != null) {
             compra.setEstado(entityManager.find(Estado.class, this.estadoId));
+        }
+
+        if(!this.codigoCupom.isEmpty()) {
+            CupomDesconto cupom = cupomDescontoRepository.findByCodigo(this.codigoCupom);
+            LocalDate hoje = LocalDate.now();
+            Period periodo = Period.between( hoje, cupom.getValidade());
+            if(periodo.isNegative()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cupom fora da validade");
+            }
+            compra.setCupomDesconto(cupom);
         }
 
         return compra;

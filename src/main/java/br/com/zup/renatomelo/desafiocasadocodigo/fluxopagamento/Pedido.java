@@ -25,6 +25,13 @@ public class Pedido {
     @OneToMany
     private List<Itens> itens;
 
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public Pedido() {
+    }
+
     public Pedido(@NotNull @DecimalMin(value = "0", inclusive = false) BigDecimal total,
                   @NotNull @NotEmpty @Valid List<Itens> itens) {
         this.total = total;
