@@ -156,7 +156,12 @@ public class NovaCompraRequest {
             return livro.getPreco().multiply(new BigDecimal(item.getQuantidade()));
         }).reduce(BigDecimal::add).get();
 
-        return totalCalculado.equals(this.novoPedidoRequest.getTotal());
+        //totalCalculado.compareTo(this.getNovoPedidoRequest().getTotal());
+        if(totalCalculado.compareTo(this.getNovoPedidoRequest().getTotal()) == 0) {
+            return true;
+        }
+        return false;
+        //return totalCalculado.equals(this.novoPedidoRequest.getTotal());
     }
 
     @Override
