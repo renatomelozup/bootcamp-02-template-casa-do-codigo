@@ -29,6 +29,10 @@ public class Pedido {
         return total;
     }
 
+    public List<Itens> getItens() {
+        return itens;
+    }
+
     public Pedido() {
     }
 

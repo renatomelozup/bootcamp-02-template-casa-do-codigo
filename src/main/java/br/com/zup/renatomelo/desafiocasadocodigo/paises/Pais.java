@@ -15,6 +15,10 @@ public class Pais {
     @Column(unique = true)
     private String nome;
 
+    public String getNome() {
+        return nome;
+    }
+
     public Pais(@NotBlank String nome) {
         this.nome = nome;
     }

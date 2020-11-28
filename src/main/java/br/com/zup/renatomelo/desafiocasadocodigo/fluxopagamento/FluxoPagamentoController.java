@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
@@ -56,6 +57,9 @@ public class FluxoPagamentoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> detalheCompra(@PathVariable Long id) {
-        return new ResponseEntity<>(compraRepository.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(compraRepository.getById(id)
+                .orElseThrow(() -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "compra não encontrada");
+                }), HttpStatus.OK);
     }
 }

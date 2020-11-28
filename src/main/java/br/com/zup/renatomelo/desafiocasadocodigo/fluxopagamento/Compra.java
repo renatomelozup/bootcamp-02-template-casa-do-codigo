@@ -51,6 +51,12 @@ public class Compra {
     @Valid
     private CupomDesconto cupomDesconto;
 
+    private Boolean existeCupom = false;
+
+    private BigDecimal valorCupom;
+
+    private BigDecimal totalFinal;
+
     public Long getId() {
         return id;
     }
@@ -103,23 +109,28 @@ public class Compra {
         return pedido;
     }
 
-    public Boolean existeCupom() {
-        if(cupomDesconto != null) {
-            return true;
-        }
-        return false;
+    public Boolean getExisteCupom() {
+        return existeCupom;
+    }
+
+    public BigDecimal getValorCupom() {
+        return valorCupom;
+    }
+
+    public BigDecimal getTotalFinal() {
+        return totalFinal;
     }
 
     public BigDecimal valorCupom() {
-        if(existeCupom()) {
+        if(getExisteCupom()) {
             return cupomDesconto.getPercentual().multiply(new BigDecimal(100));
         }
         return null;
     }
 
     public BigDecimal totalFinal() {
-        if(existeCupom()) {
-            return this.pedido.getTotal().multiply(valorCupom());
+        if(getExisteCupom()) {
+            return this.pedido.getTotal().multiply(getValorCupom());
         }
 
         return this.pedido.getTotal();
@@ -147,13 +158,18 @@ public class Compra {
         this.telefone = telefone;
         this.pais = pais;
         this.pedido = pedido;
+        this.totalFinal = pedido.getTotal();
     }
 
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
-    public void setCupomDesconto(CupomDesconto cupomDesconto) {
+    public void setCupomDesconto( CupomDesconto cupomDesconto) {
+        this.existeCupom = true;
+        this.valorCupom = cupomDesconto.getPercentual();
+        //this.valorCupom = cupomDesconto.getPercentual().multiply(new BigDecimal(100));
+        this.totalFinal = this.pedido.getTotal().multiply(BigDecimal.ONE.subtract(this.valorCupom.divide(new BigDecimal(100))));
         this.cupomDesconto = cupomDesconto;
     }
 }

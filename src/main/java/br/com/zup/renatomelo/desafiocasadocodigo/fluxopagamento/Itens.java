@@ -19,6 +19,17 @@ public class Itens {
     @Min(1)
     private Long quantidade;
 
+    public Itens() {
+    }
+
+    public Long getIdLivro() {
+        return idLivro;
+    }
+
+    public Long getQuantidade() {
+        return quantidade;
+    }
+
     public Itens(@NotNull Long idLivro, @NotNull @Min(1) Long quantidade) {
         this.idLivro = idLivro;
         this.quantidade = quantidade;

@@ -10,6 +10,7 @@ import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
@@ -62,7 +63,6 @@ public class NovaCompraRequest {
     @Valid
     private NovoPedidoRequest novoPedidoRequest;
 
-    @HasRecord(domainClass = CupomDesconto.class, fieldName = "codigo")
     private String codigoCupom;
 
     public String getCodigoCupom() {
@@ -201,8 +201,11 @@ public class NovaCompraRequest {
             compra.setEstado(entityManager.find(Estado.class, this.estadoId));
         }
 
-        if(!this.codigoCupom.isEmpty()) {
+        if(StringUtils.hasText(codigoCupom)) {
             CupomDesconto cupom = cupomDescontoRepository.findByCodigo(this.codigoCupom);
+            if(cupom == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cupom não existe");
+            }
             LocalDate hoje = LocalDate.now();
             Period periodo = Period.between( hoje, cupom.getValidade());
             if(periodo.isNegative()){

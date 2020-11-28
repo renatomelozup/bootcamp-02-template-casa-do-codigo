@@ -1,6 +1,7 @@
 package br.com.zup.renatomelo.desafiocasadocodigo.fluxopagamento;
 
 import br.com.zup.renatomelo.desafiocasadocodigo.paises.Estado;
+import br.com.zup.renatomelo.desafiocasadocodigo.paises.NomeEstadoProjection;
 import br.com.zup.renatomelo.desafiocasadocodigo.paises.Pais;
 
 import java.math.BigDecimal;
@@ -17,9 +18,9 @@ public interface DetalhesCompraProjection {
     String getCep();
     String getTelefone();
     Pais getPais();
-    Estado getEstado();
+    NomeEstadoProjection getEstado();
     Pedido getPedido();
-    Boolean existeCupom();
-    BigDecimal valorCupom();
-    BigDecimal totalFinal();
+    Boolean getExisteCupom();
+    BigDecimal getValorCupom();
+    BigDecimal getTotalFinal();
 }
